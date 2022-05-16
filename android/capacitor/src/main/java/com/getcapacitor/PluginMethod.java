@@ -9,6 +9,8 @@ public @interface PluginMethod {
 
     String RETURN_CALLBACK = "callback";
 
+    String RETURN_CALLBACK_WITH_PROMISE = "callbackWithPromise";
+
     String RETURN_NONE = "none";
 
     String returnType() default RETURN_PROMISE;

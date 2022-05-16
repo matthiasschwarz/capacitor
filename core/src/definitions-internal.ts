@@ -1,4 +1,4 @@
-import type {
+﻿import type {
   CapacitorGlobal,
   PluginCallback,
   PluginResultData,
@@ -8,7 +8,7 @@ import type { CapacitorPlatformsInstance } from './platforms';
 
 export interface PluginHeaderMethod {
   readonly name: string;
-  readonly rtype?: 'promise' | 'callback';
+  readonly rtype?: 'promise' | 'callback' | 'callbackWithPromise';
 }
 
 export interface PluginHeader {
@@ -64,6 +64,16 @@ export interface CapacitorInstance extends CapacitorGlobal {
     options?: O,
     callback?: PluginCallback,
   ) => string;
+
+  /**
+   * Sends data over the bridge to the native layer.
+   */
+  nativeCallbackWithPromise: <O, R>(
+      pluginName: string,
+      methodName: string,
+      options?: O,
+      callback?: PluginCallback,
+  ) => Promise<R>;
 
   /**
    * Sends data over the bridge to the native layer and

@@ -120,17 +120,26 @@ export const createCapacitor = (win: WindowCapacitor): CapacitorInstance => {
       if (pluginHeader) {
         const methodHeader = pluginHeader?.methods.find(m => prop === m.name);
         if (methodHeader) {
-          if (methodHeader.rtype === 'promise') {
-            return (options: any) =>
-              cap.nativePromise(pluginName, prop.toString(), options);
-          } else {
-            return (options: any, callback: any) =>
-              cap.nativeCallback(
-                pluginName,
-                prop.toString(),
-                options,
-                callback,
-              );
+          switch (methodHeader.rtype) {
+            case "promise":
+              return (options: any) =>
+                  cap.nativePromise(pluginName, prop.toString(), options);
+            case "callback":
+              return (options: any, callback: any) =>
+                  cap.nativeCallback(
+                      pluginName,
+                      prop.toString(),
+                      options,
+                      callback,
+                  );
+            case "callbackWithPromise":
+              return (options: any, callback: any) =>
+                  cap.nativeCallbackWithPromise(
+                      pluginName,
+                      prop.toString(),
+                      options,
+                      callback,
+                  );
           }
         } else if (impl) {
           return impl[prop]?.bind(impl);
